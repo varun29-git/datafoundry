@@ -72,12 +72,25 @@ def exists(key):
 
 
 def claim(task):
+    """One writer. A second box gets PreconditionFailed and leaves the task alone."""
     try:
-        s3.put_object(Bucket=BUCKET, Key=claim_key(task), Body=json.dumps(
-            {"t": time.time(), "instance": INSTANCE}).encode())
+        s3.put_object(
+            Bucket=BUCKET,
+            Key=claim_key(task),
+            Body=json.dumps({"t": time.time(), "instance": INSTANCE}).encode(),
+            IfNoneMatch="*",
+        )
         return True
     except ClientError:
         return False
+
+
+def claim_stale(task, older_than=30 * 60):
+    try:
+        body = json.loads(s3.get_object(Bucket=BUCKET, Key=claim_key(task))["Body"].read())
+    except ClientError:
+        return False
+    return time.time() - float(body.get("t", time.time())) > older_than
 
 
 def heartbeat(state):
@@ -94,21 +107,22 @@ def get_hf_token():
     return sm.get_secret_value(SecretId="ci1/indic-cc-latin/hf-token")["SecretString"]
 
 
-CHUNK_THRESHOLD = 2048
+# Same bound as the English tokenize pass. One Rust encode_batch per chunk,
+# including long code documents. A per-document Python encode leaves the cores idle.
+ENCODE_BATCH = 256
 
 
 def encode_docs(tok, texts):
-    """Encode each document whole. Newline splits are not identical to one BPE pass."""
+    """Encode each document whole, in batches. Newline splits are not one BPE pass."""
     norm = ["" if t is None else t for t in texts]
     encs = [None] * len(norm)
-    short_idx = [i for i, t in enumerate(norm) if len(t) <= CHUNK_THRESHOLD]
-    if short_idx:
-        encoded = tok.encode_batch([norm[i] for i in short_idx], add_special_tokens=False)
-        for i, enc in zip(short_idx, encoded):
-            encs[i] = enc.ids
-    for i, text in enumerate(norm):
-        if encs[i] is None:
-            encs[i] = tok.encode(text, add_special_tokens=False).ids
+    for start in range(0, len(norm), ENCODE_BATCH):
+        chunk = norm[start:start + ENCODE_BATCH]
+        encoded = tok.encode_batch(chunk, add_special_tokens=False)
+        if len(encoded) != len(chunk):
+            raise RuntimeError("encode_batch length mismatch")
+        for offset, enc in enumerate(encoded):
+            encs[start + offset] = enc.ids
     return encs
 
 
@@ -136,13 +150,14 @@ def doc_iter(task, rows, cols):
             yield r[col]
 
 
-def process_task(task, workdir):
+def process_task(task, workdir, tok=None):
     import array
     import pyarrow.parquet as pq
     from huggingface_hub import hf_hub_download
-    from tokenizers import Tokenizer
 
-    tok = Tokenizer.from_file(os.environ["TOK_PATH"])
+    if tok is None:
+        from tokenizers import Tokenizer
+        tok = Tokenizer.from_file(os.environ["TOK_PATH"])
     if task["kind"] == "hf":
         with dl_sem:
             token = os.environ.get("HF_TOKEN") or get_hf_token()
@@ -169,7 +184,7 @@ def process_task(task, workdir):
     row_lo = task.get("row_start", 0)
     row_hi = task.get("row_end")
     seen = 0
-    for batch in pf.iter_batches(batch_size=20000, columns=read_cols):
+    for batch in pf.iter_batches(batch_size=ENCODE_BATCH, columns=read_cols):
         n0 = batch.num_rows
         b_lo = seen
         b_hi = seen + n0
@@ -243,26 +258,20 @@ def worker_loop(q, workdir):
             stat["seconds"] = round(time.time() - t0, 1)
             s3.put_object(Bucket=BUCKET, Key=done_key(task), Body=json.dumps(stat).encode())
             print(f"DONE {task['source']} {os.path.basename(task['path'])} {stat['tokens']:,} tok {stat['seconds']}s", flush=True)
+            q.task_done() if False else None
+            task["_ok"] = True
         except Exception as e:
             print(f"FAIL {task['path']}: {e}", flush=True)
             traceback.print_exc()
+            task["_ok"] = False
         finally:
             try:
                 s3.delete_object(Bucket=BUCKET, Key=claim_key(task))
             except ClientError:
                 pass
-            if task["kind"] == "hf" and "local" in dir():
-                pass
 
 
-def main():
-    global INSTANCE
-    INSTANCE = iid()
-    workdir = sys.argv[1] if len(sys.argv) > 1 else "/work/fleet"
-    os.makedirs(workdir, exist_ok=True)
-    n_workers = int(sys.argv[2]) if len(sys.argv) > 2 else 24
-    state = {"ok": 0, "fail": 0, "phase": "run"}
-    threading.Thread(target=heartbeat, args=(state,), daemon=True).start()
+def load_tasks():
     tasks = []
     paginator = s3.get_paginator("list_objects_v2")
     for page in paginator.paginate(Bucket=BUCKET, Prefix=OPS + "manifest-v2/"):
@@ -270,28 +279,113 @@ def main():
             for line in s3.get_object(Bucket=BUCKET, Key=obj["Key"])["Body"].read().decode().splitlines():
                 if line.strip():
                     tasks.append(json.loads(line))
-    print(f"manifest: {len(tasks)} tasks", flush=True)
-    q = Queue(maxsize=2 * n_workers)
-    procs = [Process(target=worker_loop, args=(q, os.path.join(workdir, f"w{i}"))) for i in range(n_workers)]
-    for p in procs:
-        p.start()
-    fed = skipped = 0
-    for task in tasks:
+    return tasks
+
+
+def main():
+    global INSTANCE
+    INSTANCE = iid()
+    workdir = sys.argv[1] if len(sys.argv) > 1 else "/work/fleet"
+    os.makedirs(workdir, exist_ok=True)
+    # One worker per core, one core left for the parent and S3. Same split as the Indic fleets.
+    n_workers = int(sys.argv[2]) if len(sys.argv) > 2 else max(1, (os.cpu_count() or 2) - 1)
+    state = {"ok": 0, "fail": 0, "tokens": 0, "phase": "run", "nproc": n_workers}
+    threading.Thread(target=heartbeat, args=(state,), daemon=True).start()
+    tasks = load_tasks()
+    print(f"manifest: {len(tasks)} tasks workers={n_workers}", flush=True)
+    result_q = Queue()
+    work_q = Queue(maxsize=n_workers * 2)
+
+    def run_one(slot):
+        os.environ["TOKENIZERS_PARALLELISM"] = "false"
+        os.environ["RAYON_NUM_THREADS"] = "1"
+        from tokenizers import Tokenizer
+
+        tok = Tokenizer.from_file(os.environ["TOK_PATH"])
+        slot_dir = os.path.join(workdir, f"w{slot}")
+        os.makedirs(slot_dir, exist_ok=True)
+        while True:
+            task = work_q.get()
+            if task is None:
+                result_q.put(None)
+                return
+            t0 = time.time()
+            stat = None
+            try:
+                stat = process_task(task, slot_dir, tok)
+                stat["seconds"] = round(time.time() - t0, 1)
+                s3.put_object(Bucket=BUCKET, Key=done_key(task), Body=json.dumps(stat).encode())
+                print(
+                    f"DONE {task['source']} {os.path.basename(task['path'])} {stat['tokens']:,} tok {stat['seconds']}s",
+                    flush=True,
+                )
+            except Exception as exc:
+                print(f"FAIL {task['path']}: {exc}", flush=True)
+                traceback.print_exc()
+                stat = None
+            finally:
+                try:
+                    s3.delete_object(Bucket=BUCKET, Key=claim_key(task))
+                except ClientError:
+                    pass
+            result_q.put(stat)
+
+    procs = [Process(target=run_one, args=(i,)) for i in range(n_workers)]
+    for proc in procs:
+        proc.start()
+    if tasks:
+        rot = int(hashlib.sha256(INSTANCE.encode()).hexdigest(), 16) % len(tasks)
+        ordered = tasks[rot:] + tasks[:rot]
+    else:
+        ordered = []
+
+    def offer(task):
         if exists(done_key(task)):
-            skipped += 1
-            continue
+            return False
+        if exists(claim_key(task)) and not claim_stale(task):
+            return False
         if exists(claim_key(task)):
-            continue
+            try:
+                s3.delete_object(Bucket=BUCKET, Key=claim_key(task))
+            except ClientError:
+                pass
         if not claim(task):
+            return False
+        work_q.put(task)
+        return True
+
+    def feeder():
+        try:
+            # Second pass picks up a claim a peer released after a failure.
+            for _ in range(2):
+                placed = 0
+                for task in ordered:
+                    if offer(task):
+                        placed += 1
+                print(f"pass placed={placed} ok={state['ok']}", flush=True)
+        finally:
+            for _ in procs:
+                work_q.put(None)
+
+    threading.Thread(target=feeder, daemon=True).start()
+    finished_workers = 0
+    while finished_workers < n_workers:
+        msg = result_q.get()
+        if msg is None:
+            finished_workers += 1
             continue
-        q.put(task)
-        fed += 1
-    for _ in procs:
-        q.put(None)
-    for p in procs:
-        p.join()
+        if msg:
+            state["ok"] += 1
+            state["tokens"] += int(msg.get("tokens") or 0)
+        else:
+            state["fail"] += 1
+    for proc in procs:
+        proc.join()
     state["phase"] = "done"
-    print(f"fleet box done: fed {fed}, skipped {skipped}", flush=True)
+    print(
+        f"fleet box done: ok={state['ok']} fail={state['fail']} tokens={state['tokens']}",
+        flush=True,
+    )
 
 
 if __name__ == "__main__":

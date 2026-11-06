@@ -43,9 +43,12 @@ class FleetWorkerTests(unittest.TestCase):
             )
         )
         text = ("alpha\n    return " + ("x" * 3000) + "\nbeta")
-        self.assertGreater(len(text), fleet_worker.CHUNK_THRESHOLD)
+        self.assertGreater(len(text), fleet_worker.ENCODE_BATCH)
         ids = fleet_worker.encode_docs(tok, [text, "", None])
-        self.assertEqual(ids[0], tok.encode(text, add_special_tokens=False).ids)
+        whole = tok.encode(text, add_special_tokens=False).ids
+        batched = tok.encode_batch([text], add_special_tokens=False)[0].ids
+        self.assertEqual(ids[0], whole)
+        self.assertEqual(ids[0], batched)
         self.assertEqual(ids[1], [])
         self.assertEqual(ids[2], [])
 
