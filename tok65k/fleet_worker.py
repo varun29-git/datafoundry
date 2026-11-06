@@ -287,8 +287,8 @@ def main():
     INSTANCE = iid()
     workdir = sys.argv[1] if len(sys.argv) > 1 else "/work/fleet"
     os.makedirs(workdir, exist_ok=True)
-    # One worker per core, one core left for the parent and S3. Same split as the Indic fleets.
-    n_workers = int(sys.argv[2]) if len(sys.argv) > 2 else max(1, (os.cpu_count() or 2) - 1)
+    # One worker per core. Userdata passes nproc; the default is the same.
+    n_workers = int(sys.argv[2]) if len(sys.argv) > 2 else max(1, os.cpu_count() or 1)
     state = {"ok": 0, "fail": 0, "tokens": 0, "phase": "run", "nproc": n_workers}
     threading.Thread(target=heartbeat, args=(state,), daemon=True).start()
     tasks = load_tasks()
@@ -311,6 +311,10 @@ def main():
                 return
             t0 = time.time()
             stat = None
+            print(
+                f"START {task['source']} {os.path.basename(task['path'])} rows {task.get('row_start')}-{task.get('row_end')}",
+                flush=True,
+            )
             try:
                 stat = process_task(task, slot_dir, tok)
                 stat["seconds"] = round(time.time() - t0, 1)
@@ -333,11 +337,8 @@ def main():
     procs = [Process(target=run_one, args=(i,)) for i in range(n_workers)]
     for proc in procs:
         proc.start()
-    if tasks:
-        rot = int(hashlib.sha256(INSTANCE.encode()).hexdigest(), 16) % len(tasks)
-        ordered = tasks[rot:] + tasks[:rot]
-    else:
-        ordered = []
+    # Low row offsets first. An 8,000-row head finishes before a slice that must scan the tail.
+    ordered = sorted(tasks, key=lambda t: (int(t.get("row_start") or 0), t.get("path") or "", t.get("source") or ""))
 
     def offer(task):
         if exists(done_key(task)):
