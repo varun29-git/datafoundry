@@ -1,0 +1,291 @@
+{
+  "tokenizer": "tokenizer-sarvam.json",
+  "sha256": "dc54eb56abfe9e5c1205bbb1bdf97e0eccc911d7e44f3b57b73e73143d36f73f",
+  "vocab": 65536,
+  "holdout": "text after each closed training slice",
+  "budgets": {
+    "english": 1000000,
+    "hindi": 500000,
+    "marathi": 500000,
+    "telugu": 500000,
+    "kannada": 500000,
+    "bengali": 500000,
+    "gujarati": 500000,
+    "tamil": 500000,
+    "math": 500000,
+    "code": 500000
+  },
+  "rows": [
+    {
+      "set": "english",
+      "characters": 1010983,
+      "words": 161941,
+      "tokens": 231854,
+      "tokens_per_word": 1.431718959374093,
+      "round_trip_mismatches": 0,
+      "round_trip_ok": true,
+      "illegal_akshara_cuts": 0
+    },
+    {
+      "set": "hindi",
+      "characters": 509250,
+      "words": 99110,
+      "tokens": 153085,
+      "tokens_per_word": 1.5445969125214407,
+      "round_trip_mismatches": 0,
+      "round_trip_ok": true,
+      "illegal_akshara_cuts": 11453
+    },
+    {
+      "set": "marathi",
+      "characters": 507570,
+      "words": 73052,
+      "tokens": 161609,
+      "tokens_per_word": 2.2122460712916827,
+      "round_trip_mismatches": 0,
+      "round_trip_ok": true,
+      "illegal_akshara_cuts": 23155
+    },
+    {
+      "set": "telugu",
+      "characters": 515098,
+      "words": 65324,
+      "tokens": 178512,
+      "tokens_per_word": 2.732716918743494,
+      "round_trip_mismatches": 0,
+      "round_trip_ok": true,
+      "illegal_akshara_cuts": 38172
+    },
+    {
+      "set": "kannada",
+      "characters": 502636,
+      "words": 61716,
+      "tokens": 171436,
+      "tokens_per_word": 2.77782098645408,
+      "round_trip_mismatches": 0,
+      "round_trip_ok": true,
+      "illegal_akshara_cuts": 42906
+    },
+    {
+      "set": "bengali",
+      "characters": 524055,
+      "words": 78857,
+      "tokens": 176876,
+      "tokens_per_word": 2.242996817023219,
+      "round_trip_mismatches": 0,
+      "round_trip_ok": true,
+      "illegal_akshara_cuts": 36380
+    },
+    {
+      "set": "gujarati",
+      "characters": 504875,
+      "words": 84967,
+      "tokens": 173377,
+      "tokens_per_word": 2.0405216142737768,
+      "round_trip_mismatches": 0,
+      "round_trip_ok": true,
+      "illegal_akshara_cuts": 17184
+    },
+    {
+      "set": "tamil",
+      "characters": 511641,
+      "words": 57235,
+      "tokens": 153430,
+      "tokens_per_word": 2.680702367432515,
+      "round_trip_mismatches": 0,
+      "round_trip_ok": true,
+      "illegal_akshara_cuts": 26280
+    },
+    {
+      "set": "math",
+      "characters": 501959,
+      "words": 86467,
+      "tokens": 169875,
+      "tokens_per_word": 1.9646223414713126,
+      "round_trip_mismatches": 0,
+      "round_trip_ok": true,
+      "illegal_akshara_cuts": 0,
+      "tokens_per_word_digits_as_space": 1.8873888255416191,
+      "latex_commands_one_token": true
+    },
+    {
+      "set": "code",
+      "characters": 531626,
+      "words": 72409,
+      "tokens": 212258,
+      "tokens_per_word": 2.931375933930865,
+      "round_trip_mismatches": 0,
+      "round_trip_ok": true,
+      "illegal_akshara_cuts": 0
+    }
+  ],
+  "latex": {
+    "command_occurrences": 4033,
+    "commands_covering_90pct": [
+      {
+        "command": "\\frac",
+        "occurrences": 894
+      },
+      {
+        "command": "\\times",
+        "occurrences": 426
+      },
+      {
+        "command": "\\text",
+        "occurrences": 398
+      },
+      {
+        "command": "\\cdot",
+        "occurrences": 153
+      },
+      {
+        "command": "\\mathbf",
+        "occurrences": 129
+      },
+      {
+        "command": "\\pi",
+        "occurrences": 111
+      },
+      {
+        "command": "\\in",
+        "occurrences": 97
+      },
+      {
+        "command": "\\sqrt",
+        "occurrences": 93
+      },
+      {
+        "command": "\\theta",
+        "occurrences": 89
+      },
+      {
+        "command": "\\sin",
+        "occurrences": 86
+      },
+      {
+        "command": "\\left",
+        "occurrences": 83
+      },
+      {
+        "command": "\\right",
+        "occurrences": 83
+      },
+      {
+        "command": "\\int",
+        "occurrences": 75
+      },
+      {
+        "command": "\\cos",
+        "occurrences": 72
+      },
+      {
+        "command": "\\to",
+        "occurrences": 52
+      },
+      {
+        "command": "\\begin",
+        "occurrences": 44
+      },
+      {
+        "command": "\\end",
+        "occurrences": 44
+      },
+      {
+        "command": "\\partial",
+        "occurrences": 44
+      },
+      {
+        "command": "\\omega",
+        "occurrences": 42
+      },
+      {
+        "command": "\\circ",
+        "occurrences": 41
+      },
+      {
+        "command": "\\cap",
+        "occurrences": 39
+      },
+      {
+        "command": "\\lim",
+        "occurrences": 39
+      },
+      {
+        "command": "\\implies",
+        "occurrences": 37
+      },
+      {
+        "command": "\\lambda",
+        "occurrences": 36
+      },
+      {
+        "command": "\\overline",
+        "occurrences": 32
+      },
+      {
+        "command": "\\binom",
+        "occurrences": 31
+      },
+      {
+        "command": "\\log",
+        "occurrences": 31
+      },
+      {
+        "command": "\\pm",
+        "occurrences": 31
+      },
+      {
+        "command": "\\leq",
+        "occurrences": 30
+      },
+      {
+        "command": "\\approx",
+        "occurrences": 29
+      },
+      {
+        "command": "\\overrightarrow",
+        "occurrences": 28
+      },
+      {
+        "command": "\\sum",
+        "occurrences": 28
+      },
+      {
+        "command": "\\alpha",
+        "occurrences": 27
+      },
+      {
+        "command": "\\subseteq",
+        "occurrences": 27
+      },
+      {
+        "command": "\\rightarrow",
+        "occurrences": 25
+      },
+      {
+        "command": "\\cdots",
+        "occurrences": 24
+      },
+      {
+        "command": "\\quad",
+        "occurrences": 24
+      },
+      {
+        "command": "\\ldots",
+        "occurrences": 22
+      },
+      {
+        "command": "\\setminus",
+        "occurrences": 21
+      },
+      {
+        "command": "\\vec",
+        "occurrences": 21
+      }
+    ],
+    "all_one_token": true,
+    "failures": []
+  },
+  "round_trip_ok": true,
+  "illegal_akshara_cuts": 195530
+}

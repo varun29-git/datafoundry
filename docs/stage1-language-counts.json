@@ -1,0 +1,16 @@
+{
+  "source": "tokenizer-stage1.json",
+  "vocab": 65536,
+  "bytes": 256,
+  "specials": 32,
+  "Latin": 18328,
+  "Devanagari": 12938,
+  "Bengali": 6784,
+  "Gujarati": 6134,
+  "Tamil": 5533,
+  "Telugu": 8028,
+  "Kannada": 6858,
+  "other": 645,
+  "hindi_marathi": "Devanagari is one script. Hindi and Marathi are not split.",
+  "rule": "Ids 0-255 are bytes and ids 256-287 are specials. Every other piece is decoded from the byte alphabet to UTF-8. Letters and marks assign one script. Digits, punctuation, spaces, mixed scripts, and incomplete byte sequences are other."
+}

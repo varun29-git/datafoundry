@@ -1,0 +1,7 @@
+- [x] [Nemotron math sample](https://cursor.com/agents/bc-2d3eac1c-6508-5995-81b3-9f60f0a61a6d) — Math 4+ and MIND are about 84% LaTeX rows, so the math slice covers LaTeX
+- [x] [Mix research](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/curriculum-mix-recommendation.md) — paper pick was the left mix plus 50B of Genesis; Genesis, SwallowMath, and both code sets were absent from the bucket
+- [x] [Tokenizer explained](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenizer-explained.md) — plain writeup includes the syllable rule and the stray-mark fallback
+- [x] [65k tokenizer](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenizer-65k.json) — router rule is exact, 65,536 unique pieces, same cuts
+- [x] [English curriculum](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/sota-curriculum.md) — 717B plan hardened: annealing keeps 71B of unseen web, format cap is 10% per phase, no dataset added
+- [x] [Tokenizer package](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenizer-deploy.md) — stock file loads in vLLM; source matches it, grapheme rule removed
+- [x] [Akshara cuts](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/akshara-cuts.md) — measured, then set aside; Sarvam’s BPE cuts the same letters and deployability wins
