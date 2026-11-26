@@ -1,8 +1,3 @@
----
-cursor:
-  subagentId: "bc-f25c3e2e-d1a6-557a-b711-f1c700d45a72"
----
-
 # Tokenizer deployment
 
 Load the directory `docs/hf-tokenizer` with the stock fast tokenizer. That directory is what transformers and vLLM read. Indic text is Sarvam score BPE: characters are the atoms, and the highest `indic_score` merges first. `हिन्दी` is `Ġह` | `िन्` | `दी`. There is no grapheme pre-segmentation in this path.

@@ -1,11 +1,6 @@
----
-cursor:
-  subagentId: "bc-a5cdca27-cecc-519d-9c0c-5bb3ed69803b"
----
-
 # First document from each training dataset
 
-One document from each dataset the tokenization plan will train on. Bucket `s3://nemotron-training-data-us-east-1/`, region `us-east-1`. Each sample is the first row of the first data object in S3 key order. Parquet was read with byte ranges: the footer, then the first page of the text column (and the dictionary page when that column is dictionary-encoded). The object was not downloaded. IndicCorp is plain text, one document per line; only the start of the file was read.
+One document from each dataset the tokenization plan will train on. Bucket `s3://<research-data-bucket>/`, region `us-east-1`. Each sample is the first row of the first data object in S3 key order. Parquet was read with byte ranges: the footer, then the first page of the text column (and the dictionary page when that column is dictionary-encoded). The object was not downloaded. IndicCorp is plain text, one document per line; only the start of the file was read.
 
 Skipped: `translation-staging/`, `gzip6/` score files, `*_Latn`, Sangraha `verified/eng`, and every language outside Hindi, Bengali, Tamil, Telugu, Kannada, Marathi, and Gujarati. Genesis failure-analysis rows were not taken. English HQ synth is the Nemotron-CC v2.1 text at `translations/Cosmopedia-v2/Krutrim/source-snapshots/Nemotron-CC-v2.1/High-Quality-Synthetic/`, not the TinyLlama pack.
 
@@ -1705,7 +1700,7 @@ AI પ્રગતિઓ સાથે વપરાશકર્તા અપે�
 
 - **S3 key:** `translations/Nemotron-Pretraining-Specialized-v1.2/Fact-Seeking/indictrans2-en-indic-dist-200M-beam1-20260902/fact-seeking-70shard-10lang-r16-20260903/language=hin_Deva/source=18e67b6d4a372383a93b/chunk=00c5f47ee4e2eeeb507e1059777541f688a22c6b4c4e26f0d062448f5b6dea02/files/hin_Deva/translated_documents.parquet`
 - **Column:** `translation`
-- **Document id:** `s3://nemotron-training-data-us-east-1/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000009.parquet#rows=7400000:7600000:0` (column `document_id`)
+- **Document id:** `s3://<research-data-bucket>/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000009.parquet#rows=7400000:7600000:0` (column `document_id`)
 - **Character length:** 192
 - **Columns checked:** On this object, `translation` is the translated text (192 characters, not a hex digest). `translation_sha256` is a 64-character hex digest. The sample is `translation`.
 
@@ -1723,7 +1718,7 @@ D. 20 अप्रैल 1944
 
 - **S3 key:** `translations/Nemotron-Pretraining-Specialized-v1.2/Fact-Seeking/indictrans2-en-indic-dist-200M-beam1-20260902/fact-seeking-70shard-10lang-r16-20260903/language=ben_Beng/source=24c0607adac25c9e3e90/chunk=02fe47bf5eb2a30701eaa79ea4b79c85625f12d308314d890e9c3cb8a4f36e01/files/ben_Beng/translated_documents.parquet`
 - **Column:** `translation`
-- **Document id:** `s3://nemotron-training-data-us-east-1/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000007.parquet#rows=4400000:4600000:2` (column `document_id`)
+- **Document id:** `s3://<research-data-bucket>/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000007.parquet#rows=4400000:4600000:2` (column `document_id`)
 - **Character length:** 312
 - **Columns checked:** On this object, `translation` is the translated text (312 characters, not a hex digest). `translation_sha256` is a 64-character hex digest. The sample is `translation`.
 
@@ -1741,7 +1736,7 @@ D. ভূমিকা 3 চিকিৎসা উদ্ধার সহায়
 
 - **S3 key:** `translations/Nemotron-Pretraining-Specialized-v1.2/Fact-Seeking/indictrans2-en-indic-dist-200M-beam1-20260902/fact-seeking-70shard-10lang-r16-20260903/language=tam_Taml/source=3cf8b0a24eb61f1314f9/chunk=020c880fb7ea901fdfdf29d68ec0ce7b7588af9a3e1b658462c78388c0e9032b/files/tam_Taml/translated_documents.parquet`
 - **Column:** `translation`
-- **Document id:** `s3://nemotron-training-data-us-east-1/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000032.parquet#rows=4200000:4400000:0` (column `document_id`)
+- **Document id:** `s3://<research-data-bucket>/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000032.parquet#rows=4200000:4400000:0` (column `document_id`)
 - **Character length:** 551
 - **Columns checked:** On this object, `translation` is the translated text (551 characters, not a hex digest). `translation_sha256` is a 64-character hex digest. The sample is `translation`.
 
@@ -1759,7 +1754,7 @@ D. நைல் டெல்டா மற்றும் கெய்ரோ
 
 - **S3 key:** `translations/Nemotron-Pretraining-Specialized-v1.2/Fact-Seeking/indictrans2-en-indic-dist-200M-beam1-20260902/fact-seeking-70shard-10lang-r16-20260903/language=tel_Telu/source=13cbe08f5cd8f06a8aff/chunk=0921f5a7ae2427671110d32dd2a98f18e36b5d304745681ab17ca58c682e259b/files/tel_Telu/translated_documents.parquet`
 - **Column:** `translation`
-- **Document id:** `s3://nemotron-training-data-us-east-1/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000023.parquet#rows=6600000:6800000:0` (column `document_id`)
+- **Document id:** `s3://<research-data-bucket>/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000023.parquet#rows=6600000:6800000:0` (column `document_id`)
 - **Character length:** 335
 - **Columns checked:** On this object, `translation` is the translated text (335 characters, not a hex digest). `translation_sha256` is a 64-character hex digest. The sample is `translation`.
 
@@ -1777,7 +1772,7 @@ D. కొలంబియా లా గ్రాండే, డబ్ల్యు�
 
 - **S3 key:** `translations/Nemotron-Pretraining-Specialized-v1.2/Fact-Seeking/indictrans2-en-indic-dist-200M-beam1-20260902/fact-seeking-70shard-10lang-r16-20260903/language=kan_Knda/source=1f0e85c08c293cf4fda0/chunk=011a9849df3f13375afb192c9b243f578a19ff5412b98f0f8ce4dffd16eb8371/files/kan_Knda/translated_documents.parquet`
 - **Column:** `translation`
-- **Document id:** `s3://nemotron-training-data-us-east-1/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000030.parquet#rows=3600000:3800000:0` (column `document_id`)
+- **Document id:** `s3://<research-data-bucket>/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000030.parquet#rows=3600000:3800000:0` (column `document_id`)
 - **Character length:** 479
 - **Columns checked:** On this object, `translation` is the translated text (479 characters, not a hex digest). `translation_sha256` is a 64-character hex digest. The sample is `translation`.
 
@@ -1795,7 +1790,7 @@ D. ಇದು ಕೈರೋದ ಗಮಾಲಿಯಾ ಜಿಲ್ಲೆಯಿಂ�
 
 - **S3 key:** `translations/Nemotron-Pretraining-Specialized-v1.2/Fact-Seeking/indictrans2-en-indic-dist-200M-beam1-20260902/fact-seeking-70shard-10lang-r16-20260903/language=mar_Deva/source=2dfe53336872f6321a77/chunk=091742f3c27b640b65b5e32e5e3fc790aa8e3ec22a764177ed8c29e5d542c1e6/files/mar_Deva/translated_documents.parquet`
 - **Column:** `translation`
-- **Document id:** `s3://nemotron-training-data-us-east-1/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000045.parquet#rows=1000000:1200000:0` (column `document_id`)
+- **Document id:** `s3://<research-data-bucket>/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000045.parquet#rows=1000000:1200000:0` (column `document_id`)
 - **Character length:** 118
 - **Columns checked:** On this object, `translation` is the translated text (118 characters, not a hex digest). `translation_sha256` is a 64-character hex digest. The sample is `translation`.
 
@@ -1809,7 +1804,7 @@ D. ಇದು ಕೈರೋದ ಗಮಾಲಿಯಾ ಜಿಲ್ಲೆಯಿಂ�
 
 - **S3 key:** `translations/Nemotron-Pretraining-Specialized-v1.2/Fact-Seeking/indictrans2-en-indic-dist-200M-beam1-20260902/fact-seeking-70shard-10lang-r16-20260903/language=guj_Gujr/source=258d9e4f4da39e095b47/chunk=004da4a4d13107988d822da5edd47544bcc460168e78a65597f91d97a0187e91/files/guj_Gujr/translated_documents.parquet`
 - **Column:** `translation`
-- **Document id:** `s3://nemotron-training-data-us-east-1/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000060.parquet#rows=7200000:7400000:0` (column `document_id`)
+- **Document id:** `s3://<research-data-bucket>/datasets/Nemotron-Pretraining-Specialized-v1.2/Nemotron-Pretraining-Fact-Seeking/part_000060.parquet#rows=7200000:7400000:0` (column `document_id`)
 - **Character length:** 216
 - **Columns checked:** On this object, `translation` is the translated text (216 characters, not a hex digest). `translation_sha256` is a 64-character hex digest. The sample is `translation`.
 

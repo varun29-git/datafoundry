@@ -1,8 +1,3 @@
----
-cursor:
-  subagentId: "bc-78bd37e9-f264-5f88-b3b5-35aae91c68a7"
----
-
 # Stock Hugging Face tokenizer
 
 Load the directory `docs/hf-tokenizer` with the stock fast tokenizer. No custom Python class.

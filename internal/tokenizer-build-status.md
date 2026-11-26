@@ -1,13 +1,8 @@
----
-cursor:
-  subagentId: "bc-858a2ab5-a401-54fd-84f4-ab381ac112af"
----
-
 All seven gates passed. The 1.2B model was not trained. Indic merges were not rebuilt. `नमस्ते` is `▁नम` + `स्ते`.
 
 The router now joins Indic words separated by one ordinary space into one Sarvam span. A space next to a Latin word stays a real space. Newlines, tabs, and runs of two spaces stay English. The vocabulary file is unchanged.
 
-`i-0676987ec61af5f49` (`m7i.8xlarge`, name `tokenizer-65k`) was stopped, was started, ran the English tail, and is stopped again. `i-0c6550d199294585f` stayed stopped. No new instance was rented.
+The `m7i.8xlarge` instance named `tokenizer-65k` was stopped, was started, ran the English tail, and is stopped again. The `m7i.4xlarge` instance stayed stopped. No new instance was rented.
 
 Artifacts:
 
@@ -30,7 +25,7 @@ Gate 3 tokens per word, same held-out files:
 
 Training text, 4,000,001,475 UTF-8 bytes after NFC, documents capped at 4,000 characters. Mix by words: English 398,536,878, code 144,922,690, math 84,538,425 (33 / 12 / 7).
 
-- English: ClimbMix `s3://nemotron-training-data-us-east-1/datasets/nemotron-climbmix/karpathy-400b-shuffle/`. Nemotron CC HQ is in the bucket and was not used.
+- English: ClimbMix `s3://<research-data-bucket>/datasets/nemotron-climbmix/karpathy-400b-shuffle/`. Nemotron CC HQ is in the bucket and was not used.
 - Code: CodeAlchemy is not in the bucket. No dataset is named Nemotron Code. The code share is half `Nemotron-Pretraining-Code-Concepts` and half `Nemotron-Pretraining-Scientific-Coding`.
 - Math: half `nemotron-cc-math-v1/4plus/` and half `Nemotron-Pretraining-Math-Textbooks`. Finemath and SwallowMath are not separate corpora in the bucket.
 

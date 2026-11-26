@@ -1,6 +1,6 @@
 # Indic specialized segment layout
 
-Each language folder under `s3://nemotron-training-data-us-east-1/datasets/nemotron-indic-specialized-v1/` now has one subfolder per `_source_config`. A parquet file that contained more than one `_source_config` was rewritten into one file per config. A file that already held a single config was copied to that config's subfolder. The original object was deleted only after the new objects existed and their parquet row counts summed to the original. `datasets/nemotron-indic-cc-v1/` was not changed.
+Each language folder under `s3://<research-data-bucket>/datasets/nemotron-indic-specialized-v1/` now has one subfolder per `_source_config`. A parquet file that contained more than one `_source_config` was rewritten into one file per config. A file that already held a single config was copied to that config's subfolder. The original object was deleted only after the new objects existed and their parquet row counts summed to the original. `datasets/nemotron-indic-cc-v1/` was not changed.
 
 Originals removed: 5,572. Left in place because verification failed: 0.
 

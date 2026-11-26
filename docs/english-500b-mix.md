@@ -1,6 +1,6 @@
 # English mix, 500B
 
-**Superseded 2026-11-06 by the final curriculum in [one-trillion-curriculum.md](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/one-trillion-curriculum.md) — that file is the authority (Code-v1 dropped, Rewriting and UltraData-Code L3 added, ClimbMix resized, Personas counted). The rows below are kept as history.**
+**Superseded 2026-11-06 by the final curriculum in [one-trillion-curriculum.md](one-trillion-curriculum.md) — that file is the authority (Code-v1 dropped, Rewriting and UltraData-Code L3 added, ClimbMix resized, Personas counted). The rows below are kept as history.**
 
 Decided 2026-10-19. Decay composition revised 2026-11-03: the window is now 40% web. This is the English half of the run. Indic is a separate 500B of Nemotron Indic v1. Draws are one pass. A short census is not refilled from another row.
 

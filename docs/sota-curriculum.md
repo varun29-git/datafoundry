@@ -1,13 +1,8 @@
----
-cursor:
-  subagentId: "bc-ca53ddae-28ab-54fd-b093-b7406c85be26"
----
-
 # English pretraining curriculum, 1.5B dense
 
 This is the English sheet for a 1.5B dense model trained from scratch. It spends **717B** tokens, which is 478 tokens per parameter. Indic is not in these 717B. The tokenizer is unchanged.
 
-The 717B is the right-hand mix from the [mix note](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/curriculum-mix-recommendation.md), with two edits: Genesis III is 52B, and InfiniByte Reasoning is added at 19B. Math Textbooks and SwallowMath-v2 are not on this sheet. The [phase plan](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/curriculum-plan.md) and the [inventory curriculum](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/training-curriculum.md) still describe a 1.2B run. The [1 October samples](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/internal/curriculum-mix-samples.md) are what the rows look like on disk.
+The 717B is the right-hand mix from the [mix note](curriculum-mix-recommendation.md), with two edits: Genesis III is 52B, and InfiniByte Reasoning is added at 19B. Math Textbooks and SwallowMath-v2 are not on this sheet. The [phase plan](curriculum-plan.md) and the [inventory curriculum](training-curriculum.md) still describe a 1.2B run. The [1 October samples](../internal/curriculum-mix-samples.md) are what the rows look like on disk.
 
 ## What changed
 

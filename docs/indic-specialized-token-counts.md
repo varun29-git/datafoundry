@@ -1,6 +1,6 @@
 # Indic specialized token counts
 
-Full sum of `token_count` from every `.tokens.index.jsonl` under `s3://nemotron-training-data-us-east-1/datasets/nemotron-indic-specialized-v1/`.
+Full sum of `token_count` from every `.tokens.index.jsonl` under `s3://<research-data-bucket>/datasets/nemotron-indic-specialized-v1/`.
 
 Counted at 2026-10-31 23:01:28 UTC+05:30 (Asia/Calcutta). Each index line is one source document. The total for a file is the sum of its `token_count` fields. These are the stored token ids. No `<eod>` is added.
 

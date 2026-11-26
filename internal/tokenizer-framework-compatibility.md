@@ -1,8 +1,3 @@
----
-cursor:
-  subagentId: "bc-6fb1870b-a8f1-53fc-ba92-b934674eff8c"
----
-
 # Is the 65k tokenizer usable by Transformers and the usual stacks?
 
 No. `docs/tokenizer-65k.json` is a private runtime file. It is not a Hugging Face `tokenizer.json`, not a SentencePiece `tokenizer.model`, and not a tiktoken file. The only loader that implements its rules is `Encoder` in `internal/build-65k.py` (`load_runtime`). That loader does not open `tokenizer.model`.
@@ -35,6 +30,6 @@ A `trust_remote_code` slow tokenizer could call `Encoder.encode` / `Encoder.deco
 
 ## Terminus ModelTunnel v2
 
-The folder is `/Users/varundaiya/terminus-modeltunnelv2` on the Mac. This run is a Linux cloud VM and cannot read that tree. A private-worker id was available (`4f57e60b-bd95-548d-b8f7-8204bb8784e7`, `~/Data Complete`), and `eligibleForSubagent` was true, but the Task tool has no worker target, so a local subagent only confirmed the path is absent here. See [modeltunnelv2-mac-search.md](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/internal/modeltunnelv2-mac-search.md).
+The expected ModelTunnel v2 checkout was on an unmounted macOS filesystem, so the Linux cloud worker could not read that tree. A local search confirmed only that the checkout was absent from the worker. See [modeltunnelv2-mac-search.md](modeltunnelv2-mac-search.md).
 
 The only file a previous run recorded inside it is `data/tokenizer/rwkv-7-world/rwkv_vocab_v20230424.txt`. That is the RWKV World vocab, a separate format, not a Hugging Face tokenizer. S3 also has the prefix `data/modeltunnelv2_tokensets_20261001/`, which is packed token data, not the encoder. The encode/decode code in that folder was not read, so nothing from it was copied.

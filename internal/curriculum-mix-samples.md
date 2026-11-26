@@ -1,17 +1,12 @@
----
-cursor:
-  subagentId: "bc-f4b31bc1-9851-5cc1-a9e9-1162b7b23515"
----
-
 # What the two mixes actually contain
 
 Sampled 1 October 2026 from this Mac. No EC2, no full-dataset download, no training. Excerpts are the first zstd page of a `text` column (or a public preview file when the bucket has no prefix). A few hundred characters each. Sizes are full listings, not guesses from one shard.
 
-## Genesis III, from ~/genesis
+## Genesis III, from a local checkout
 
-The checkout does not say what Genesis III is. `~/genesis` is commit `fd777c55` (“Initialize project”) and `git ls-tree` of `HEAD` is empty. The only files on disk are an untracked copy of Karpathy’s nanochat at `~/genesis/nanochat/`. That tree talks about ClimbMix (`nanochat/dev/LOG.md`, `nanochat/nanochat/dataset.py`). A search of `~/genesis` for “Genesis” finds nothing.
+The checkout does not say what Genesis III is. Its commit is `fd777c55` (“Initialize project”) and `git ls-tree` of `HEAD` is empty. The only files on disk are an untracked copy of Karpathy’s nanochat in a `nanochat/` subdirectory. That tree talks about ClimbMix (`nanochat/dev/LOG.md`, `nanochat/nanochat/dataset.py`). A search of the checkout for “Genesis” finds nothing.
 
-There is an empty Hugging Face cache at `~/.cache/huggingface/hub/datasets--qvac--GenesisIII/` (snapshot `b7a894a7`, 0 bytes of data, empty folders for `college_maths`, `professional_medicine`, `machine_learning`, `high_school_physics`, and `college_computer_science`). Neither `s3://nemotron-training-data-us-east-1/` nor `s3://quark-research-repository-storage/` has a Genesis prefix. The description below is the public dataset card `qvac/GenesisIII` plus five 16 KB `preview.parquet` files, not a file in `~/genesis` and not a bucket object.
+An empty Hugging Face cache for `datasets--qvac--GenesisIII` (snapshot `b7a894a7`, 0 bytes of data) contained empty folders for `college_maths`, `professional_medicine`, `machine_learning`, `high_school_physics`, and `college_computer_science`. Neither `s3://<research-data-bucket>/` nor `s3://<research-pack-bucket>/` has a Genesis prefix. The description below is the public dataset card `qvac/GenesisIII` plus five 16 KB `preview.parquet` files, not a file in the local checkout and not a bucket object.
 
 The card says QVAC Genesis III is a synthetic English STEM corpus: **159,646,553 documents, about 191 billion tokens**, 19 domains, CC BY-NC 4.0. The card’s total is the whole release. It does not publish a separate option-level token count, so the sheet’s 109B is not something this sample can confirm from the card.
 
@@ -36,11 +31,11 @@ Failure-analysis rows sit in the same files (college maths dialogue about the se
 
 ## Bucket prefixes
 
-`s3://nemotron-training-data-us-east-1/` top level: `_tokenizer_scratch/`, `artifacts/`, `bootstrap/`, `datasets/`, `source-snapshots/`, `translation-benchmark/`, `translation-staging/`, `translations/`.
+`s3://<research-data-bucket>/` top level: `_tokenizer_scratch/`, `artifacts/`, `bootstrap/`, `datasets/`, `source-snapshots/`, `translation-benchmark/`, `translation-staging/`, `translations/`.
 
 `datasets/` children: `Nemotron-Pretraining-Specialized-v1/`, `v1.1/`, `v1.2/`, `fineweb2-indic/`, `nemotron-cc-hq/`, `nemotron-cc-math-v1/`, `nemotron-cc-v2/`, `nemotron-climbmix/`, `sangraha/`.
 
-A prefix walk to depth 3 of that bucket (257 prefixes) and of `s3://quark-research-repository-storage/` (28 prefixes) found no `swallow`, `alchemy`, `genesis`, or Nemotron Code v2 name.
+A prefix walk to depth 3 of that bucket (257 prefixes) and of `s3://<research-pack-bucket>/` (28 prefixes) found no `swallow`, `alchemy`, `genesis`, or Nemotron Code v2 name.
 
 | Name | In the bucket? |
 | --- | --- |
@@ -63,7 +58,7 @@ A prefix walk to depth 3 of that bucket (257 prefixes) and of `s3://quark-resear
 
 ### ClimbMix
 
-`s3://nemotron-training-data-us-east-1/datasets/nemotron-climbmix/karpathy-400b-shuffle/`
+`s3://<research-data-bucket>/datasets/nemotron-climbmix/karpathy-400b-shuffle/`
 
 13,089 objects, **558.57 GiB**. 6,543 parquet shards (`shard_00000` through `shard_06542`), about 90 MB each. `SOURCE.json` says repository `karpathy/climbmix-400b-shuffle`, source `nvidia/Nemotron-ClimbMix`, status completed 2026-09-28. Schema is one `text` string. `shard_00000` has 86,016 rows.
 
@@ -173,7 +168,7 @@ No English text prefix for Nemotron-CC v2.1 High-Quality-Synthetic.
 
 What is stored:
 
-- `s3://quark-research-repository-storage/data/nemotron_cc_v2_hqsynth_tinyllama_15b_parallel_20260730T185305Z/` — 101 objects, **28.03 GiB**. `data_manifest.json` says dataset `nvidia/Nemotron-CC-v2`, config `High-Quality-Synthetic`, tokenizer `TinyLlama/TinyLlama-1.1B-Chat-v1.0`, `uint16`, seq_len 2048, **15,000,000,001 train tokens** and 50,000,001 validation tokens. This is token ids, not documents. It is v2, not v2.1.
+- `s3://<research-pack-bucket>/data/nemotron_cc_v2_hqsynth_tinyllama_15b_parallel_20260730T185305Z/` — 101 objects, **28.03 GiB**. `data_manifest.json` says dataset `nvidia/Nemotron-CC-v2`, config `High-Quality-Synthetic`, tokenizer `TinyLlama/TinyLlama-1.1B-Chat-v1.0`, `uint16`, seq_len 2048, **15,000,000,001 train tokens** and 50,000,001 validation tokens. This is token ids, not documents. It is v2, not v2.1.
 - `translations/Nemotron-CC-v2.1/High-Quality-Synthetic/` — 155 objects, **1.84 MB**. A Krutrim review for Bengali and Hindi, not the English corpus.
 - `data/nemotron-domain-classification/.../High-Quality-Synthetic/` — about 2 MB parquet parts whose columns are `id` and `domain_pred` only.
 

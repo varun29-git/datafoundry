@@ -173,7 +173,7 @@ Fertility here means tokens per word. A lower number is the gain this test is lo
 - Rewritten training files.
 - A router change inside this test.
 - Dropping the code check or the LaTeX check because English got shorter.
-- Starting the instances named in `docs/sarvam-safe-tokenizer-plan.md`, `i-0676987ec61af5f49` and `i-0c6550d199294585f`.
+- Starting the two stopped tokenizer instances named in `docs/sarvam-safe-tokenizer-plan.md`.
 - Starting the 1.2B training run.
 - Overwriting `docs/tokenizer-65k.json` from this test.
 

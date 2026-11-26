@@ -441,9 +441,6 @@ class Tables:
         )
 
     def write_frozen(self) -> str:
-        rows = []
-        for oid, piece in self.piece_to_id.items():
-            pass
         kept = []
         for oid in range(VOCAB):
             if self.sarvam_of[oid] is None:
@@ -1912,8 +1909,7 @@ def run_gates(enc: Encoder, meta: dict, digest: str) -> dict:
     if not texts or texts[0] != "\n    " or "▁" in texts[0] or "".join(texts) != "\n    return":
         raise SystemExit(f"gate 2 return line {texts!r}")
     g2["newline-four-spaces-return"] = texts
-    commands = choose_commands(meta)
-    # top 90 already inside commands as required; recompute the list for the note
+    # Recompute the top-90 command list for the gate report.
     eval_rows = meta["cmd_eval"]
     total = sum(n for _, n in eval_rows) or 1
     running = 0

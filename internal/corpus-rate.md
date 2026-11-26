@@ -1,8 +1,3 @@
----
-cursor:
-  subagentId: "bc-1efe28a3-7679-5e62-a57d-b9efb85e6376"
----
-
 # Corpus handoff — local jobs stopped
 
 Checked 2026-09-28 13:05 local. Corpus, trainer code, counts, and logs were left in place. Nothing was restarted.

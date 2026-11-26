@@ -1,11 +1,12 @@
 # Pretraining validation contract, 2026-11-06
 
-The evaluation freeze and actual data live in
-[the locally accessible readiness folder](/Users/varundaiya/terminus-pretraining-readiness/2026-11-06/validation/).
-Start with its `README.md`, `contract.json`, `weights.json`, `cell-budgets.json`,
-`monitoring-policy.json` and sealed validation manifest. Reusable build/scoring
-code is in CI-1 `production/validation_data.py`, `validation_evaluate.py` and
-`validation_generated.py`. No paid GPU was launched for this preparation.
+The evaluation freeze and actual data were recorded in an external readiness
+bundle that is not included in this repository. Its documented entry points are
+`README.md`, `contract.json`, `weights.json`, `cell-budgets.json`,
+`monitoring-policy.json` and a sealed validation manifest. The referenced
+reusable build/scoring code is CI-1 `production/validation_data.py`,
+`validation_evaluate.py` and `validation_generated.py`; those files are also
+not included. No paid GPU was launched for this preparation.
 
 The reference is the current one-trillion curriculum: 500B English and 500B
 Indic, with Hindi 100B and the other six languages sharing 400B. Validation

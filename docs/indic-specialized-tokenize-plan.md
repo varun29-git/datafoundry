@@ -1,6 +1,6 @@
 # Fast tokenization of specialized
 
-Tokenize every document under `s3://nemotron-training-data-us-east-1/datasets/nemotron-indic-specialized-v1/` with `docs/hf-tokenizer` (vocab 65,536). Store token ids in the same folders: `<lang>/<source_config>/`. Do not delete the text parquet. Do not touch the CC prefix.
+Tokenize every document under `s3://<research-data-bucket>/datasets/nemotron-indic-specialized-v1/` with `docs/hf-tokenizer` (vocab 65,536). Store token ids in the same folders: `<lang>/<source_config>/`. Do not delete the text parquet. Do not touch the CC prefix.
 
 This replaces a single-machine Python loop. The inner loop is the Rust tokenizer, `encode_batch`, one load per process.
 

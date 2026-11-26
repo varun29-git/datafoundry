@@ -85,7 +85,7 @@ Shared pieces (a comma, a digit) have a Sarvam piece attached, so inside a Hindi
 
 Do the steps in this order. Do not start step 6 until Gate 1 has passed.
 
-1. Read the license shipped with `sarvamai/sarvam-1`. If it forbids a derived vocabulary, stop and tell Varun. Do not rewrite pieces to dodge the license.
+1. Read the license shipped with `sarvamai/sarvam-1`. If it forbids a derived vocabulary, stop and tell the requester. Do not rewrite pieces to dodge the license.
 2. Load the original model. Confirm the vocabulary size is 68,096. Confirm `EncodeAsPieces("नमस्ते")` is `▁नम`, `स्ते`, ignoring `<s>` and `</s>`. If it is not, stop. The model on disk is the authority. Do not “fix” it to match a note.
 3. Classify every piece with the keep rules below. Confirm the fingerprint counts. Assign ids. The English tail is reserved and empty.
 4. Implement the router and the Indic encode and decode. English spans can return a clear “not trained yet” error. Do not train English to debug the router.
@@ -376,7 +376,7 @@ Also confirm the fingerprint: Devanagari 12,126, Telugu 5,916, Kannada 5,693, Be
 - We will not NFKC, and we will not run a morphological splitter.
 - We will not pre-cut words into aksharas. Sarvam already decided the Indic cuts.
 - We will not start the 1.2B training run.
-- We will not start or touch the EC2 instances `i-0676987ec61af5f49` and `i-0c6550d199294585f`. They stay stopped. We will not change AWS, S3, or training code as part of this plan.
+- We will not start or touch the two stopped tokenizer EC2 instances. They stay stopped. We will not change AWS, S3, or training code as part of this plan.
 
 ## How we know it is done
 

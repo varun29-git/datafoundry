@@ -1,8 +1,3 @@
----
-cursor:
-  subagentId: "bc-d0302178-a4d2-5b31-91ae-843ed950883c"
----
-
 # Nemotron Indic: specialized release for seven languages
 
 Checked against the live Hugging Face cards on 30 October 2026. No corpus files were downloaded. Sizes below are copied from the cards or from Table 3.1 / Table 3.2 of the companion report. Where a source does not publish a number, the cell says so.

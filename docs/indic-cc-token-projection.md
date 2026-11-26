@@ -1,6 +1,6 @@
 # Indic CC token projection
 
-Projected token counts for the seven native configs in `s3://nemotron-training-data-us-east-1/datasets/nemotron-indic-cc-v1/`. Latin configs were not read. `datasets/nemotron-indic-specialized-v1/` was not read.
+Projected token counts for the seven native configs in `s3://<research-data-bucket>/datasets/nemotron-indic-cc-v1/`. Latin configs were not read. `datasets/nemotron-indic-specialized-v1/` was not read.
 
 Sampled at 2026-10-31 18:29:16 UTC+05:30 (Asia/Calcutta). Each cell is one language, one `_source_repo`, and one `_source_config`, the same cells as `docs/indic-cc-segment-counts.md`. At least 200 documents were encoded per cell. This sample did not wait for the folder move. It read objects that were already under that prefix, using the flat key when the original was still there and the moved key when the arrange writer had already copied that file.
 

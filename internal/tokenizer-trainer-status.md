@@ -1,11 +1,6 @@
----
-cursor:
-  subagentId: "bc-28b76c37-ae46-5ec5-abf1-c8a0f418c78f"
----
-
 # Tokenizer trainer status
 
-Trainer: `/Users/varundaiya/Data Complete/tokenizer-slices/trainer/`
+Trainer: `<local-tokenizer-workdir>/trainer/`
 
 `tokenizer.json`: not written yet. Export runs only after latin, hindi, marathi, tamil, telugu, kannada, bengali, and gujarati models all exist.
 

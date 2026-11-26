@@ -1,6 +1,6 @@
 # Indic specialized native segment counts
 
-Document rows already stored under `s3://nemotron-training-data-us-east-1/datasets/nemotron-indic-specialized-v1/` for the seven native configs. Latin configs were not scanned.
+Document rows already stored under `s3://<research-data-bucket>/datasets/nemotron-indic-specialized-v1/` for the seven native configs. Latin configs were not scanned.
 
 Counted at 2026-10-31 10:24:49 UTC+05:30 (Asia/Calcutta) by projecting `_source_repo`, `_source_config`, and `_subset_key` from each parquet file. The text column was not read. Nothing was tokenized. No token count is given.
 

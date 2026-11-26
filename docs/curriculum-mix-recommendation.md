@@ -1,13 +1,8 @@
----
-cursor:
-  subagentId: "bc-7cdf97f4-9b0a-5527-8ba6-df44b7b7b7f2"
----
-
 # English mix for a 1.5B model: left, right, or a small edit
 
 Use a small edit of the left mix. Keep the math textbooks, SwallowMath-v2, the larger RQA allocation, and the larger Fact-Seeking allocation. Add about 50B tokens from the QVAC Genesis III option-level split. Do not train the right mix’s 109B of Genesis, and do not drop those four rows to pay for it.
 
-This note is the English sheet only. It does not change the Indic share, the phase gates, or the tokenizer. Those stay in [English-Indic curriculum](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/curriculum-plan.md) and [Training curriculum](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/training-curriculum.md). The programming-code rows are the same on both sides. This is not a CodeAlchemy versus Nemotron Code choice.
+This note is the English sheet only. It does not change the Indic share, the phase gates, or the tokenizer. Those stay in [English-Indic curriculum](curriculum-plan.md) and [Training curriculum](training-curriculum.md). The programming-code rows are the same on both sides. This is not a CodeAlchemy versus Nemotron Code choice.
 
 The model in this note is 1.5B dense, from scratch. Five hundred tokens per parameter is 750B tokens. The right mix is 755B, about 503 tokens per parameter of English. The left mix is 701B, about 467. The 54B gap is real. It is also smaller than the difference in what those tokens are.
 

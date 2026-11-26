@@ -1,8 +1,3 @@
----
-cursor:
-  subagentId: "bc-d02834db-edd0-51e5-a6de-0e350f2d3f3b"
----
-
 # Run the 65,536 tokenizer on the English and Indic sheets
 
 Tokenize the sheets below with the frozen tokenizer. This job writes token ids and a census. It does not train the model, and it does not retrain the tokenizer.
@@ -13,13 +8,13 @@ Combined sheet: **717B English + 247.98B Indic = 964.98B**. At `uint16`, the bud
 
 ## The tokenizer
 
-File: [tokenizer-65k.json](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenizer-65k.json).
+File: [tokenizer-65k.json](tokenizer-65k.json).
 
-sha256 `c53e0e95cd19e2954a8c7114c0a580eeb16698b153fdf84c5d80a7187d778d29`. That matches [the freeze note](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenizer-65k-freeze.md). A later status line recorded `1bd42dcd…`. The bytes on disk are the `c53e0e95…` file. The fleet refuses any other hash.
+sha256 `c53e0e95cd19e2954a8c7114c0a580eeb16698b153fdf84c5d80a7187d778d29`. That matches [the freeze note](tokenizer-65k-freeze.md). A later status line recorded `1bd42dcd…`. The bytes on disk are the `c53e0e95…` file. The fleet refuses any other hash.
 
 65,536 pieces, ids 0–65535. That fits in `uint16` with nothing left over. `K = 40059` frozen Indic pieces, `U = 435`, English tail `25189`. `indic_model` is BPE. The space mark is Ġ (U+0120). `tokenizer_spec` is inside the file. The loader refuses to start if that block disagrees with the encoder.
 
-Reference encoder: `Encoder.encode` in [build-65k.py](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/internal/build-65k.py). It does not open `tokenizer.model`. Normal text does not emit ids 0–31 (`<unk>` through the reserved specials). `<eod>` is id 4. The encoder does not insert it. The packer does, later, once per document.
+Reference encoder: `Encoder.encode` in [build-65k.py](../internal/build-65k.py). It does not open `tokenizer.model`. Normal text does not emit ids 0–31 (`<unk>` through the reserved specials). `<eod>` is id 4. The encoder does not insert it. The packer does, later, once per document.
 
 Two paths, chosen by the router:
 
@@ -81,7 +76,7 @@ Languages outside these seven are not in this job. That drops Sangraha and FineW
 
 ## Where the bytes are
 
-Account `023894314260`. Region `us-east-1`. Buckets `nemotron-training-data-us-east-1` and `quark-research-repository-storage`. Sizes are the 27 September inventory and the 1 October prefix walk. “Missing” means neither bucket had that prefix.
+Historical research account, region `us-east-1`. Buckets `<research-data-bucket>` and `<research-pack-bucket>`. Sizes are the 27 September inventory and the 1 October prefix walk. “Missing” means neither bucket had that prefix.
 
 | Sheet row | Prefix | On disk | Against the sheet |
 | --- | --- | --- | --- |
@@ -140,7 +135,7 @@ While each document is in memory, store gzip level 6 ratio (`mtime=0`, text byte
 
 ## Output
 
-Bucket `s3://nemotron-training-data-us-east-1/tokenized/tok65k/`. Nothing else is written. No overwrite of `datasets/` or `translations/`.
+Bucket `s3://<research-data-bucket>/tokenized/tok65k/`. Nothing else is written. No overwrite of `datasets/` or `translations/`.
 
 ```
 tokenized/tok65k/
@@ -167,7 +162,7 @@ Content ids only. No `<eod>` in these files. The training packer appends id 4 af
 
 The 50B English cell needs Nemotron-CC v2.1 high-quality synthetic text. That tree is not in the bucket.
 
-What is stored is `s3://quark-research-repository-storage/data/nemotron_cc_v2_hqsynth_tinyllama_15b_parallel_20260730T185305Z/`: 15,000,000,001 train tokens and 50,000,001 val tokens, TinyLlama, `uint16`, sequence length 2048. It is v2, not v2.1. Decoding those ids with TinyLlama and encoding with this tokenizer is valid, and the manifest must say `retokenized_from_tinyllama`. The count will not be 15B and it will not be 50B. Two epochs of that retokenized text is the cap. The other 20B of the 50B cell is not created by a third epoch.
+What is stored is `s3://<research-pack-bucket>/data/nemotron_cc_v2_hqsynth_tinyllama_15b_parallel_20260730T185305Z/`: 15,000,000,001 train tokens and 50,000,001 val tokens, TinyLlama, `uint16`, sequence length 2048. It is v2, not v2.1. Decoding those ids with TinyLlama and encoding with this tokenizer is valid, and the manifest must say `retokenized_from_tinyllama`. The count will not be 15B and it will not be 50B. Two epochs of that retokenized text is the cap. The other 20B of the 50B cell is not created by a third epoch.
 
 If a real v2.1 text prefix shows up and this tokenizer counts at least 50B unique tokens, use that prefix and ignore the TinyLlama pack. Until then the English sheet’s HQ cell is “two epochs of the 15B pack, retokenized,” and the phase tables in the English curriculum that assume 50B unique tokens do not apply.
 
@@ -194,9 +189,9 @@ These five downloads are on the order of a few hundred GiB for the slices, and m
 
 Same region as the bucket. S3 same-region traffic is the path. Use an S3 gateway endpoint if the instances sit in a private subnet, so the reads do not go through NAT.
 
-Instance role, and only this role: `s3:GetObject` and `s3:ListBucket` on both buckets, `s3:PutObject` on `tokenized/tok65k/*`. The Bedrock IAM user that listed the bucket from a laptop does not go on the fleet.
+Instance role, and only this role: `s3:GetObject` and `s3:ListBucket` on both buckets, `s3:PutObject` on `tokenized/tok65k/*`. The laptop identity that listed the bucket does not go on the fleet.
 
-Stopped instances already in the account, from the tokenizer build: `i-0676987ec61af5f49` (`m7i.8xlarge`, name `tokenizer-65k`) and `i-0c6550d199294585f` (`m7i.4xlarge`). Leave the 4xlarge stopped. The 8xlarge is the probe and the golden-test box. It is not the corpus fleet. Stop it again when the golden test passes.
+Two instances from the tokenizer build are already stopped: an `m7i.8xlarge` named `tokenizer-65k` and an `m7i.4xlarge`. Leave the 4xlarge stopped. The 8xlarge is the probe and the golden-test box. It is not the corpus fleet. Stop it again when the golden test passes.
 
 Fleet, after the golden test:
 

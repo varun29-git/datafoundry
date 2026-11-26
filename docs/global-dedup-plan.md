@@ -2,15 +2,15 @@
 
 This is the job that is executing. It writes a drop list. It does not tokenize, and it does not train.
 
-Parent rules: [tokenize run plan](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenize-run-plan.md). Where that note names a threshold and leaves the band layout open, the locked choices for this run are in the MinHash section below.
+Parent rules: [tokenize run plan](tokenize-run-plan.md). Where that note names a threshold and leaves the band layout open, the locked choices for this run are in the MinHash section below.
 
 ## Machine
 
-One instance: `i-0676987ec61af5f49`, `m7i.8xlarge`, `us-east-1`, 32 vCPU, 128 GiB. Name `tokenizer-65k`.
+One `m7i.8xlarge` instance in `us-east-1`: 32 vCPU, 128 GiB. Name `tokenizer-65k`.
 
-`i-0c6550d199294585f` stays stopped. No `c7i` fleet.
+The smaller tokenizer instance stays stopped. No `c7i` fleet.
 
-Scratch: grow the gp3 volume so at least 500 GiB is free before the MinHash pass. Signatures spill to that disk. Same-region reads and writes on `s3://nemotron-training-data-us-east-1/`. Source prefixes are read. Nothing under `datasets/` or `translations/` is deleted or overwritten.
+Scratch: grow the gp3 volume so at least 500 GiB is free before the MinHash pass. Signatures spill to that disk. Same-region reads and writes on `s3://<research-data-bucket>/`. Source prefixes are read. Nothing under `datasets/` or `translations/` is deleted or overwritten.
 
 Stop this instance when the drop list and the count file are on S3.
 
@@ -127,7 +127,7 @@ While a document from any other in-scope source is in memory, record gzip level 
 
 ## Output
 
-Bucket `s3://nemotron-training-data-us-east-1/tokenized/tok65k/`. New keys only:
+Bucket `s3://<research-data-bucket>/tokenized/tok65k/`. New keys only:
 
 ```
 tokenized/tok65k/drop-list/
@@ -151,7 +151,7 @@ On this one machine, about a day and a half. A Python MinHash stretches that tow
 - Every id in the drop list was read from that source.
 - No survivor id is also in a drop file.
 - `counts.json` is on S3 and matches the line counts of the id files.
-- `i-0676987ec61af5f49` is stopped. `i-0c6550d199294585f` is still stopped.
+- Both tokenizer instances are stopped.
 
 ## After this, still not started
 

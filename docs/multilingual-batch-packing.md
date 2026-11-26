@@ -1,11 +1,6 @@
----
-cursor:
-  subagentId: "bc-786628f3-9c64-5c8e-bf36-95fa1100e011"
----
-
 # Packing the 1T run
 
-Decided 2026-11-01, revised 2026-11-02. This is how the 1.2B from-scratch run is sharded and batched. English is the locked 500B in [english-500b-mix.md](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/english-500b-mix.md), with Specialized v1.1 and CodeAlchemy split into their real subsegments. Indic is the locked 500B in [indic-500b-curriculum.md](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/indic-500b-curriculum.md). The two halves are drawn 1:1 on the same steps. A piece is a string, not a language: [tokenizer plan](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenizer-plan.md), plain version [tokenizer explained](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenizer-explained.md).
+Decided 2026-11-01, revised 2026-11-02. This is how the 1.2B from-scratch run is sharded and batched. English is the locked 500B in [english-500b-mix.md](english-500b-mix.md), with Specialized v1.1 and CodeAlchemy split into their real subsegments. Indic is the locked 500B in [indic-500b-curriculum.md](indic-500b-curriculum.md). The two halves are drawn 1:1 on the same steps. A piece is a string, not a language: [tokenizer plan](tokenizer-plan.md), plain version [tokenizer explained](tokenizer-explained.md).
 
 The token budgets stay as written. One sequence is one language and one source. A source is a subsegment, not the parent dataset. A sum line is not a bucket.
 
@@ -85,7 +80,7 @@ Personas-India has no cursor until its token count exists. It stays on the Engli
 
 Split the language first, then the sources inside that language’s tokens. The pooled source mix is the sum of these cells. Sampling the pool first would smear the Gujarati move across the other six languages.
 
-This Latin add is FineWeb-2 Latin. The count is the census in [indic-fineweb2-latin-token-counts.md](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/indic-fineweb2-latin-token-counts.md), 311,404,717 tokens, taken in full. Specialized Latin was already in the specialized subsegment rows, 12,778,755,736, and is not repeated. Total Indic Latin is 13,090,160,453. Nemotron-CC was not cut. The unmeasured Latin budget is deleted. Each language’s Latin count is funded by reducing that language’s FineWeb-2 native by the same count. IndicCorp is the full pool. The reduction does not reach Sangraha or Code-Concepts.
+This Latin add is FineWeb-2 Latin. The count is the census in [indic-fineweb2-latin-token-counts.md](indic-fineweb2-latin-token-counts.md), 311,404,717 tokens, taken in full. Specialized Latin was already in the specialized subsegment rows, 12,778,755,736, and is not repeated. Total Indic Latin is 13,090,160,453. Nemotron-CC was not cut. The unmeasured Latin budget is deleted. Each language’s Latin count is funded by reducing that language’s FineWeb-2 native by the same count. IndicCorp is the full pool. The reduction does not reach Sangraha or Code-Concepts.
 
 For each language and each counted source, warmup / stable / decay = `n × percent // 100`, remainder in stable. Percents: Specialized subsegments 3/82/15, FineWeb-2 Latin 10/80/10, FineWeb-2 native 10/80/10, Sangraha 10/70/20, CC-v2 High-Quality 5/93/2, CC-v2.1 High-Quality 8/80/12, CC-v2.1 High-Quality-DQA 0/70/30, IndicCorp v2 0/100/0, CC-v2 Diverse-QA 0/70/30. One correction after that arithmetic: Gujarati CC-v2 High-Quality moves 49,629,202 from stable into warmup and 640,478,753 from stable into decay. The cells below are after that move. They sum to the language table and to the curriculum’s segment table. CC-v2 Diverse-QA is zero in every cell. A zero cell is not a bucket. The Specialized sum column is a check, not a source.
 

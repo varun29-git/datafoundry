@@ -1,6 +1,6 @@
 # Indic CC token counts
 
-Full sum of `token_count` from every `.tokens.index.jsonl` under the included slices of `s3://nemotron-training-data-us-east-1/datasets/nemotron-indic-cc-v1/`.
+Full sum of `token_count` from every `.tokens.index.jsonl` under the included slices of `s3://<research-data-bucket>/datasets/nemotron-indic-cc-v1/`.
 
 Counted from `ops/indic-cc-tokenize-20261101/stats/` when that prefix held 46,141 objects, one per source parquet. These are stored token ids. No `<eod>` is in the bins.
 
@@ -10,15 +10,7 @@ Files: 46,141. Documents: 892,060,753. Tokens: **750,022,728,096**.
 
 ## Instances
 
-Spot `indic-cc-tokenize` boxes that ran the encode. The fleet was still up when this file was written.
-
-- `i-0f6db2dea3370286d`
-- `i-0fd5f45852f48ac71`
-- `i-0c964d40d233016ad`
-- `i-0c8b01a21db6c2e76`
-- `i-0af4077080c4138e3`
-
-`i-00674deee0b991001`, `i-01de091f1d0e45ce0`, `i-090328b39f051b8f6`, `i-0396c0276be20db6b`, and `i-0a2d3ef87e207ff2d` also took claims and were spot-interrupted. Their finished bins were kept.
+Five Spot `indic-cc-tokenize` instances ran the encode. The fleet was still up when this file was written. Five additional instances also took claims and were spot-interrupted. Their finished bins were kept.
 
 ## Tokens per language and slice
 

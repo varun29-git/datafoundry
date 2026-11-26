@@ -1,6 +1,6 @@
 # What the tokenizer is, in plain words
 
-This is the explanation. The exact rules, the regex, and the pass numbers live in the [tokenizer plan](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenizer-plan.md). If the two ever disagree, the plan is the one to follow.
+This is the explanation. The exact rules, the regex, and the pass numbers live in the [tokenizer plan](tokenizer-plan.md). If the two ever disagree, the plan is the one to follow.
 
 ## The decision
 

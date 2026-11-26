@@ -2,13 +2,13 @@
 
 Tokenize the training text once. The curriculum is a sampler over those tokens. It is not a second tokenization. The token files and the index are immutable. Do not write warmup, stable, or annealing token files. A phase weight is a sampler input. Changing it does not retokenize.
 
-The English budgets and phases are the [English curriculum](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/sota-curriculum.md): 717B, warmup 36B, stable 537B, annealing 144B. Indic is the seven-language sheet in the [tokenize run plan](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenize-run-plan.md), 247.98B on that sheet. The census replaces both numbers. A short file stays short.
+The English budgets and phases are the [English curriculum](sota-curriculum.md): 717B, warmup 36B, stable 537B, annealing 144B. Indic is the seven-language sheet in the [tokenize run plan](tokenize-run-plan.md), 247.98B on that sheet. The census replaces both numbers. A short file stays short.
 
 Global MinHash is not part of this run. The English note still describes it. The later decision is to skip it: these sources are separate products, and leftover copies of high-quality text stay. Benchmark scans are not part of this run either. These are published datasets, used as released. Do not search them for GSM8K, MATH, MMLU, MMLU-Pro, HumanEval, MBPP, or DS-1000.
 
 ## Tokenizer
 
-Load [hf-tokenizer](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/hf-tokenizer) with the stock fast tokenizer. That is the file vLLM reads. Indic is Sarvam score BPE. Characters are the atoms. There is no grapheme lock. `हिन्दी` is `Ġह` | `िन्` | `दी`.
+Load [hf-tokenizer](hf-tokenizer) with the stock fast tokenizer. That is the file vLLM reads. Indic is Sarvam score BPE. Characters are the atoms. There is no grapheme lock. `हिन्दी` is `Ġह` | `िन्` | `दी`.
 
 Content files are `uint16`. Every content id satisfies 0 ≤ id ≤ 65535, and ids 0–31 occur zero times. The encoder fails on the first id outside 0–65535 or in 0–31. It does not cast that id and continue. Do not discover this after terabytes.
 
@@ -60,7 +60,7 @@ No MinHash. No drop list of near-duplicates. A MIND page and its Math 4+ page ca
 
 ## What is written
 
-Bucket `s3://nemotron-training-data-us-east-1/tokenized/tok65k/`. Nothing under `datasets/` or `translations/` is overwritten.
+Bucket `s3://<research-data-bucket>/tokenized/tok65k/`. Nothing under `datasets/` or `translations/` is overwritten.
 
 ```
 tokenized/tok65k/
@@ -87,7 +87,7 @@ HQ synth takes one of two branches. Do not mix them.
 
 The half-day budget is the slow planning rate, 5 MB/s per core. The fleet is built to run at the Rust tokenizer’s rate, and the probe replaces the guess before the four machines are launched. That run is the same 1,000-document check in Machines. A fast tokenizer that misses a saved row does not launch the fleet.
 
-The inner loop is not Python. One process loads [hf-tokenizer](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/hf-tokenizer) once and calls `encode_batch`. The stock tokenizer is the Rust library. A per-document Python call would throw away the cores. The router is already inside that file, so the fleet does not reimplement it.
+The inner loop is not Python. One process loads [hf-tokenizer](hf-tokenizer) once and calls `encode_batch`. The stock tokenizer is the Rust library. A per-document Python call would throw away the cores. The router is already inside that file, so the fleet does not reimplement it.
 
 Parquet is read with column projection. Only `text`, the id column, and the pipeline flag for Genesis are pulled. Row groups stream. The object is not staged as a full extra copy if the reader can pull byte ranges. Same-region S3 is the path. ClimbMix’s 6,543 shards are about 90 MB each, so a Spot stop loses seconds of work, not an hour.
 
@@ -103,7 +103,7 @@ If the probe is well above 5 MB/s per core, wall clock falls toward the S3 read.
 
 ## Machines
 
-Same region as the bucket. Leave `i-0c6550d199294585f` stopped. `i-0676987ec61af5f49` is the probe: 1,000 documents per path, before the fleet starts. Matching token ids is not enough. For each document, compare the whole preprocessing function: `document_id` (the index `doc_id`), the raw UTF-8 bytes and their hash, the token ids, `n_tokens`, the gzip ratio, the compression band, and the holdout or train assignment. One mismatch stops the fleet. The probe proves the preprocessing function is deterministic, not only that the tokenizer runs.
+Same region as the bucket. Leave the smaller tokenizer instance stopped. The larger tokenizer instance is the probe: 1,000 documents per path, before the fleet starts. Matching token ids is not enough. For each document, compare the whole preprocessing function: `document_id` (the index `doc_id`), the raw UTF-8 bytes and their hash, the token ids, `n_tokens`, the gzip ratio, the compression band, and the holdout or train assignment. One mismatch stops the fleet. The probe proves the preprocessing function is deterministic, not only that the tokenizer runs.
 
 Fleet after the probe: four `c7i.12xlarge` (48 vCPU, 96 GiB), spot, 200 GiB gp3 each. One process loads the tokenizer and forks one worker per core. A worker claims a parquet key. A claim older than 30 minutes with no `_done` is free again. That expiry only releases the claim. It does not make a partial file final. Spot interruption loses the open temporary file only.
 

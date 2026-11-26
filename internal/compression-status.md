@@ -1,8 +1,3 @@
----
-cursor:
-  subagentId: "bc-c3501724-2fcf-5456-8549-668a4adbdd33"
----
-
 # Compression-ratio status
 
 Checked 2026-10-04. Existing scores were not recomputed. Per-document score files are in the training bucket. This Mac has the scorer source only, not the score parquets.
@@ -23,7 +18,7 @@ There is no easy/mid/hard column on these files. The sheet’s gzip cuts (compre
 
 Prefix:
 
-`s3://nemotron-training-data-us-east-1/translation-staging/Cosmopedia-v2/Krutrim-decoupled/compression-zstd3/20261002/`
+`s3://<research-data-bucket>/translation-staging/Cosmopedia-v2/Krutrim-decoupled/compression-zstd3/20261002/`
 
 `inputs/` under that prefix is a staged copy of source parquet (824 objects, 633,719,368,369 bytes), not a second score.
 

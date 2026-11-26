@@ -1,6 +1,6 @@
 # High-Quality-DQA token counts
 
-Full sum of `tokens` from every stats record under `s3://nemotron-training-data-us-east-1/ops/indic-cc-dqa-tokenize-20261101/stats/`. Each record is one restored parquet of `nvidia/Nemotron-CC-v2.1` / `High-Quality-DQA` / `cc_v21_hq_dqa`. The ids are the sibling `<basename>.tokens.uint16` beside that parquet, with `<basename>.tokens.index.jsonl`. No `<eod>` is added.
+Full sum of `tokens` from every stats record under `s3://<research-data-bucket>/ops/indic-cc-dqa-tokenize-20261101/stats/`. Each record is one restored parquet of `nvidia/Nemotron-CC-v2.1` / `High-Quality-DQA` / `cc_v21_hq_dqa`. The ids are the sibling `<basename>.tokens.uint16` beside that parquet, with `<basename>.tokens.index.jsonl`. No `<eod>` is added.
 
 Counted at 2026-11-01 16:19:56 UTC. Stats records: 1,904 of 1,904. Failed files: 0. On every file the uint16 object is exactly two bytes per `tokens`. Document counts match the restore census on every language.
 

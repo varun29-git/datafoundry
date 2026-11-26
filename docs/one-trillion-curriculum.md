@@ -1,11 +1,6 @@
----
-cursor:
-  subagentId: "bc-06bbb7de-c933-51aa-add0-beac12cfa091"
----
-
 # From-scratch curriculum, 1T — final
 
-Final 2026-11-06. Supersedes every earlier revision of this file, including the 2026-11-03 decay revision and the 2026-11-04 Code v2 census. The halves [english-500b-mix.md](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/english-500b-mix.md) and [indic-500b-curriculum.md](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/indic-500b-curriculum.md) are background; this file is the authority. Packing is [multilingual-batch-packing.md](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/multilingual-batch-packing.md).
+Final 2026-11-06. Supersedes every earlier revision of this file, including the 2026-11-03 decay revision and the 2026-11-04 Code v2 census. The halves [english-500b-mix.md](english-500b-mix.md) and [indic-500b-curriculum.md](indic-500b-curriculum.md) are background; this file is the authority. Packing is [multilingual-batch-packing.md](multilingual-batch-packing.md).
 
 ## The run
 
@@ -72,7 +67,7 @@ QAT = last 50B of stable (each stable cell × 50/425) + the 50B decay. English s
 
 ## Indic half, 500,000,000,000
 
-Unchanged from [indic-500b-curriculum.md](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/indic-500b-curriculum.md); verified cell-by-cell. Hindi 100B; the other six share 400B with the 4 remainder tokens to ta/te/kn/mr.
+Unchanged from [indic-500b-curriculum.md](indic-500b-curriculum.md); verified cell-by-cell. Hindi 100B; the other six share 400B with the 4 remainder tokens to ta/te/kn/mr.
 
 | Language | Specialized | FW2 Latin | FW2 native | IndicCorp | Sangraha | v2 HQ (draw) | v2.1 HQ | v2.1 DQA | Total |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |

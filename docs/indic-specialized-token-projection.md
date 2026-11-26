@@ -1,6 +1,6 @@
 # Indic specialized token projection
 
-Projected token counts for the seven native configs already in `s3://nemotron-training-data-us-east-1/datasets/nemotron-indic-specialized-v1/`. Latin configs were not read.
+Projected token counts for the seven native configs already in `s3://<research-data-bucket>/datasets/nemotron-indic-specialized-v1/`. Latin configs were not read.
 
 Sampled at 2026-10-31 11:41:04 UTC+05:30 (Asia/Calcutta). Each cell is one language folder and one `_source_config`. At least 200 documents were encoded per cell. Many parquet files contain more than one `_source_config`, so each sampled row was kept only when its `_source_config` matched the cell. Files are spread across the cell, and rows are spread through the matching documents in each file. The text column was encoded with the stock tokenizer at `docs/hf-tokenizer` (`tokenizer.json`, vocab 65,536). That file has no post-processor, and `tokenizer_config.json` sets `add_bos_token` and `add_eos_token` to false, so these counts do not add `<s>` or `</s>`.
 

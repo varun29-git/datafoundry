@@ -1,8 +1,3 @@
----
-cursor:
-  subagentId: "bc-fdb40279-f0c7-5370-81a9-1cffad9a098c"
----
-
 # Akshara cuts in the frozen 65,536-token tokenizer
 
 The piece strings and ids are unchanged. The encoder pre-segments into Unicode extended grapheme clusters and merges clusters only into pieces that already exist and that themselves end on cluster boundaries. `का` stays one unit (`का` | `र`). `क` | `ा` | `र` is not produced. A cluster with no covering piece is a counted byte fallback, not a cut through a matra or a virama.
@@ -111,7 +106,7 @@ Token boundaries inside a code point, excluded from both rates:
 
 ## Sample
 
-The training bucket `s3://nemotron-training-data-us-east-1/datasets/indiccorp-v2/` was not reachable from this environment. There were no cloud credentials. The text is the public Hugging Face release of the same corpus, [ai4bharat/IndicCorpV2](https://huggingface.co/datasets/ai4bharat/IndicCorpV2), which is the corpus copied into that bucket. Hindi is `data/hi-1.txt` (one of the three Hindi files). The other languages are `data/mr.txt`, `data/kn.txt`, `data/te.txt`, `data/ta.txt`, `data/gu.txt`, and `data/bn.txt`.
+The training bucket `s3://<research-data-bucket>/datasets/indiccorp-v2/` was not reachable from this environment. There were no cloud credentials. The text is the public Hugging Face release of the same corpus, [ai4bharat/IndicCorpV2](https://huggingface.co/datasets/ai4bharat/IndicCorpV2), which is the corpus copied into that bucket. Hindi is `data/hi-1.txt` (one of the three Hindi files). The other languages are `data/mr.txt`, `data/kn.txt`, `data/te.txt`, `data/ta.txt`, `data/gu.txt`, and `data/bn.txt`.
 
 Each sample is the leading complete lines of that file, not a draw from the vocabulary and not a random slice of the file. Lines were kept whole until the NFC text reached at least 5,000,000 code points.
 

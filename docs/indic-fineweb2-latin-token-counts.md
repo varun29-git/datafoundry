@@ -1,6 +1,6 @@
 # FineWeb-2 Latin token counts
 
-Full sum of `token_count` from every `.tokens.index.jsonl` under the seven Latin prefixes of `s3://nemotron-training-data-us-east-1/datasets/fineweb2-indic/`.
+Full sum of `token_count` from every `.tokens.index.jsonl` under the seven Latin prefixes of `s3://<research-data-bucket>/datasets/fineweb2-indic/`.
 
 Each prefix has one parquet, `train/000_00000.parquet`. The ids are the sibling `000_00000.tokens.uint16`, with `000_00000.tokens.index.jsonl`. An index line is `uuid` (the parquet `id`), `token_start`, and `token_count`. No `<eod>` was added.
 

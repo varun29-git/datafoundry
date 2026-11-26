@@ -1,8 +1,3 @@
----
-cursor:
-  subagentId: "bc-f9d09022-7fcc-5899-a2d4-3f90dbbbab34"
----
-
 # Can terminus-modeltunnelv2 encode and decode the frozen tokenizer?
 
 Yes. `docs/tokenizer-65k.json` loads, encodes, and decodes through the repo’s own JSON tokenizer. It is the file that code is pinned to.

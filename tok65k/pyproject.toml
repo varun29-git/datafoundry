@@ -5,11 +5,16 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tok65k"
 version = "1.0.0"
-description = "Load the stock 65,536-token tokenizer from docs/hf-tokenizer."
+description = "Load a repository-local or user-supplied 65,536-token Hugging Face tokenizer."
 requires-python = ">=3.11"
 dependencies = [
     "tokenizers==0.23.2",
     "transformers==5.18.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff==0.14.7",
 ]
 
 [project.scripts]
@@ -17,3 +22,10 @@ tok65k = "tok65k.cli:main"
 
 [tool.setuptools]
 packages = ["tok65k"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

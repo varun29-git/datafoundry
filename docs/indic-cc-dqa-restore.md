@@ -1,8 +1,8 @@
 # High-Quality-DQA restore
 
-`nvidia/Nemotron-CC-v2.1` / `High-Quality-DQA` / `cc_v21_hq_dqa` is restored under `s3://nemotron-training-data-us-east-1/datasets/nemotron-indic-cc-v1/<lang>/nvidia/Nemotron-CC-v2.1/High-Quality-DQA/<original shard filename>`.
+`nvidia/Nemotron-CC-v2.1` / `High-Quality-DQA` / `cc_v21_hq_dqa` is restored under `s3://<research-data-bucket>/datasets/nemotron-indic-cc-v1/<lang>/nvidia/Nemotron-CC-v2.1/High-Quality-DQA/<original shard filename>`.
 
-Instance `i-0c59043472bed30b0` was an on-demand `c7i.24xlarge` in `us-east-1a` with a 1 TB gp3 volume (16,000 IOPS, 1,000 MB/s). It shut itself down after the seven languages summed to 17,425,910 rows. AWS recorded that stop as an instance-initiated shutdown, and the instance is terminated. The eight running `indic-cc-tokenize` instances were not stopped or resized.
+An on-demand `c7i.24xlarge` instance in `us-east-1a` with a 1 TB gp3 volume (16,000 IOPS, 1,000 MB/s) shut itself down after the seven languages summed to 17,425,910 rows. AWS recorded that stop as an instance-initiated shutdown, and the instance is terminated. The eight running `indic-cc-tokenize` instances were not stopped or resized.
 
 Kannada was the first language to match the census: 2,326,859 rows, 256 objects, 13,984,118,083 bytes.
 

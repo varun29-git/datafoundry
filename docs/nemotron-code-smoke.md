@@ -1,11 +1,6 @@
----
-cursor:
-  subagentId: "bc-209970fa-5834-5abc-ace3-2bace1f46148"
----
-
 # Nemotron Code v2 tokenizer smoke
 
-`aws sts get-caller-identity` succeeded for account `023894314260`.
+`aws sts get-caller-identity` succeeded for the historical research account.
 
 | | |
 | --- | ---: |
@@ -15,7 +10,7 @@ cursor:
 | UTF-8 bytes | 1,063,693 |
 | Bytes per token | 3.168 |
 
-S3 key: `s3://nemotron-training-data-us-east-1/datasets/nemotron-code-v2/synthetic-code-review/part_00005.parquet` (region `us-east-1`). Object size 2,389,554,160 bytes, 1,336,018 rows, 18 row groups. These 301 documents are the first data page of row group 0 (compressed page 500,184 bytes, starting at file offset 4). No other object under the prefix was read.
+S3 key: `s3://<research-data-bucket>/datasets/nemotron-code-v2/synthetic-code-review/part_00005.parquet` (region `us-east-1`). Object size 2,389,554,160 bytes, 1,336,018 rows, 18 row groups. These 301 documents are the first data page of row group 0 (compressed page 500,184 bytes, starting at file offset 4). No other object under the prefix was read.
 
 Column `content`. Languages in these 301 rows: Python 228, C++ 73. `seed_source`: Nemotron-Pretraining-Code-v1 210, Nemotron-Pretraining-Code-v2 91. Row order matches `language`, `seed_source`, and `nemotron_pretraining_id`.
 

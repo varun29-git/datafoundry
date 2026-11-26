@@ -1,7 +1,3 @@
----
-cursor:
-  subagentId: "bc-209970fa-5834-5abc-ace3-2bace1f46148"
----
 # Dataset roundtrip smoke
 `aws` credentials on this machine. Stock tokenizer `docs/hf-tokenizer`, `encode(..., add_special_tokens=False)`, no `<eod>` appended, then `decode` with the same tokenizer. A document counts as a match only when the decoded string is exactly the original. Gzip is level 6 with `mtime=0`. Under 512 bytes is mid and is not compressed. Easy is under 35%, mid is 35% through 65% including both ends, hard is over 65%.
 Checked again with `Tokenizer.decode` on this same `tokenizer.json`. A newline, a tab, and repeated spaces come back as themselves. Rows below that call a newline the character `Ċ` are that marker still sitting in the decoded string from the smoke script. They are not lost text under the stock decoder.

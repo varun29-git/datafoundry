@@ -6,7 +6,7 @@ The fertility number and the token-per-word number are two different failures.
 
 `tokenizer-sarvam.json` has better tokens per word because the long Indic strings are still in the vocab. It has worse akshara cuts because many of those strings start with a vowel sign, which `illegal_akshara` rejects. It is not an improved Sarvam. The original Sarvam file encodes `नमस्ते` as `▁नम` + `स्ते`. The rebuilt file encodes it as `न` + `म` + `स्` + `ते`.
 
-Logs used: `full.log` and `train.log` on `i-0676987ec61af5f49`, `sarvam-build.log` on `i-0c6550d199294585f`. No tokenizer file was rewritten.
+Logs used: `full.log` and `train.log` on the larger tokenizer instance, and `sarvam-build.log` on the smaller tokenizer instance. No tokenizer file was rewritten.
 
 ## 1. Pair counts are updated after every merge
 

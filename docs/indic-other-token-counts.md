@@ -4,11 +4,11 @@ Token totals for the seven native languages already stored as uint16 bins from t
 
 The raw prefixes have no `.tokens.uint16` or `.tokens.index.jsonl` beside the source files:
 
-- `s3://nemotron-training-data-us-east-1/datasets/fineweb2-indic/`
-- `s3://nemotron-training-data-us-east-1/datasets/indiccorp-v2/`
-- `s3://nemotron-training-data-us-east-1/datasets/sangraha/verified/`
+- `s3://<research-data-bucket>/datasets/fineweb2-indic/`
+- `s3://<research-data-bucket>/datasets/indiccorp-v2/`
+- `s3://<research-data-bucket>/datasets/sangraha/verified/`
 
-The bins that do exist are under `s3://nemotron-training-data-us-east-1/tokenized/tok65k-other-dual-v1/`, assembled from `tokenized/tok65k-other-dual-v1-shard0/` and `tokenized/tok65k-other-dual-v1-shard1/`. Each part is `part-*.uint16` plus `part-*.index.jsonl` (and a small `.val` pair). An index line has `n_tokens` and `token_start`, not the field name `token_count`.
+The bins that do exist are under `s3://<research-data-bucket>/tokenized/tok65k-other-dual-v1/`, assembled from `tokenized/tok65k-other-dual-v1-shard0/` and `tokenized/tok65k-other-dual-v1-shard1/`. Each part is `part-*.uint16` plus `part-*.index.jsonl` (and a small `.val` pair). An index line has `n_tokens` and `token_start`, not the field name `token_count`.
 
 Counted from `tokenized/tok65k-other-dual-v1/manifest.json` (`updated_unix` 1791522452, 2026-10-09 05:07:32 UTC). For each language, tokens are `train_tokens + val_tokens` and documents are `documents_kept`. The same 21 rows in the two shard manifests add up to the combined manifest on both documents and tokens. One FineWeb Hindi train part was checked directly: the sum of `n_tokens` is 65,435,402, `token_start` is contiguous from 0, and the paired `.uint16` is 130,870,804 bytes (exactly two bytes per token). The matching val part also matches.
 

@@ -1,11 +1,6 @@
----
-cursor:
-  subagentId: "bc-2740e3da-bc74-51e5-880c-131d56e6ddb8"
----
-
 # Spot check: four c7i.12xlarge in us-east-1
 
-Checked 2026-10-05 16:53 UTC on account `023894314260`. Read-only calls only. No instance was launched, started, or stopped.
+Checked 2026-10-05 16:53 UTC on the historical research account. Read-only calls only. No instance was launched, started, or stopped.
 
 **Yes.** Four Spot `c7i.12xlarge` at once are likely in `us-east-1` when the four can land in more than one Availability Zone. They are unlikely all in one zone.
 

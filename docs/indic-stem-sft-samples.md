@@ -1,6 +1,6 @@
 # Indic STEM SFT samples
 
-Two ordinary-length `Nemotron-Pretraining-STEM-SFT` documents each for Hindi, Marathi, and Gujarati, from `s3://nemotron-training-data-us-east-1/datasets/nemotron-indic-specialized-v1/`. Rows were kept only when `_source_config` was `Nemotron-Pretraining-STEM-SFT`. For each language, character lengths were measured on documents spread across eight files, and these two were the ones closest to that median. Text is shown up to 2,500 characters.
+Two ordinary-length `Nemotron-Pretraining-STEM-SFT` documents each for Hindi, Marathi, and Gujarati, from `s3://<research-data-bucket>/datasets/nemotron-indic-specialized-v1/`. Rows were kept only when `_source_config` was `Nemotron-Pretraining-STEM-SFT`. For each language, character lengths were measured on documents spread across eight files, and these two were the ones closest to that median. Text is shown up to 2,500 characters.
 
 ## Hindi
 

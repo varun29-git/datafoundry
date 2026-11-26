@@ -2,7 +2,7 @@
 
 Train this tonight. Do not start the 1.2B run until the gate at the end passes.
 
-The model is a from-scratch 1.2B dense decoder. The languages are English, Hindi, Marathi, Kannada, Telugu, Tamil, Gujarati, and Bengali. Kannada and Telugu are separate scripts. Hindi and Marathi share Devanagari and do not share a fertility score. The train is two files, on one mixed 15 GB sample. Stage 1 is one akshara-constrained BPE. Its vocabulary is exactly **65,536**, including 32 specials and 256 bytes, so every id fits in `uint16`. Save it as `tokenizer-stage1.json` and never overwrite it. It is the fallback. `tokenizer-stage2.json` is also exactly **65,536**. It reuses rare learned slots. It does not add ids above 65,535. The rules are in [Stage 1 and stage 2](#stage-1-and-stage-2). A plain-language walkthrough is in [tokenizer explained](/cursor/stores/bc-3ba733cf-aea0-4cb0-a71b-053ddf16e5ee/docs/tokenizer-explained.md).
+The model is a from-scratch 1.2B dense decoder. The languages are English, Hindi, Marathi, Kannada, Telugu, Tamil, Gujarati, and Bengali. Kannada and Telugu are separate scripts. Hindi and Marathi share Devanagari and do not share a fertility score. The train is two files, on one mixed 15 GB sample. Stage 1 is one akshara-constrained BPE. Its vocabulary is exactly **65,536**, including 32 specials and 256 bytes, so every id fits in `uint16`. Save it as `tokenizer-stage1.json` and never overwrite it. It is the fallback. `tokenizer-stage2.json` is also exactly **65,536**. It reuses rare learned slots. It does not add ids above 65,535. The rules are in [Stage 1 and stage 2](#stage-1-and-stage-2). A plain-language walkthrough is in [tokenizer explained](tokenizer-explained.md).
 
 Score both files. Ship stage 2 only if every language’s tokens/word is less than or equal to stage 1. Otherwise ship stage 1. If stage 1 misses the engineering bar, train a second tokenizer at **81,920** (80 × 1,024, the 81.9k backup). That backup is not a substitute for stage 2, and stage 2 is not a substitute for it. Same regex, same sample, same Indic budgets. The extra 16,384 ids are Latin, so Latin learned goes from 26,748 to 43,132. Do not train the 81,920 model before the 65,536 score exists. Tied at hidden size 2048, 81,920 rows are 167,772,160 parameters, 33,554,432 more than 65,536. Stage 2 adds no rows. The embedding stays 65,536 × 2,048.
 
@@ -143,7 +143,7 @@ The space in ` गया` and ` आया` is part of the word pre-token. A cut 
 
 ### What “akshara” means here
 
-An akshara is an orthographic syllable. The pre-tokenizer does **not** cut the word into aksharas. Varun accepted this. If it did, a word of four syllables could never be one token, and fertility would be stuck there. The pre-tokenizer keeps the word, so a frequent word can still be one token. BPE cuts inside that chunk, and only on an akshara boundary. English, code, math, and LaTeX are unchanged.
+An akshara is an orthographic syllable. The pre-tokenizer does **not** cut the word into aksharas. the requester accepted this. If it did, a word of four syllables could never be one token, and fertility would be stuck there. The pre-tokenizer keeps the word, so a frequent word can still be one token. BPE cuts inside that chunk, and only on an akshara boundary. English, code, math, and LaTeX are unchanged.
 
 Rules for the checker. Implement them directly. Do not call Unicode grapheme breaking and hope. This machine’s `unicodedata` is 15.0.0. The conjunct rule GB9c arrived in Unicode 15.1. An old `\X` splits `स्कूल` into `स्` + `कू` + `ल` and will lie to the checker.
 
@@ -324,7 +324,7 @@ The old per-script ship test, not used: ship the Picky version of a script only 
 
 ## Slot table
 
-Varun’s target. Each language other than English gets 5,500 learned pieces. English gets every learned piece that remains. These counts sum to 65,536. `tokenizer-stage1.json` stays untouched. The new file is `tokenizer-balanced.json`, still exactly 65,536.
+the requester’s target. Each language other than English gets 5,500 learned pieces. English gets every learned piece that remains. These counts sum to 65,536. `tokenizer-stage1.json` stays untouched. The new file is `tokenizer-balanced.json`, still exactly 65,536.
 
 7 × 5,500 = 38,500. Learned pieces are 65,248, so English is 26,748. Code, math, LaTeX, digits, and punctuation sit inside English. Specials stay 32. Bytes stay 256. 26,748 + 38,500 + 256 + 32 = 65,536.
 
@@ -566,8 +566,8 @@ Some existing packs were tokenized with `TinyLlama/TinyLlama-1.1B-Chat-v1.0`. A 
 
 | Pack | Counted on TinyLlama | What to do |
 | --- | --- | --- |
-| `s3://quark-research-repository-storage/data/nemotron_cc_v2_hqsynth_tinyllama_15b_parallel_20260730T185305Z/` | 15,000,000,001 train tokens, 50,000,001 validation tokens, `seq_len` 2048 | Retokenize from the source text. The 15,000,000,001 figure is not the count under this tokenizer. Recompute the curriculum’s 2-epoch cap as `2 × T` after the recount. |
-| `s3://quark-research-repository-storage/openhermes25_assistant_sft_20260803/` | 251,398,213 train tokens, 180,633,498 supervised tokens. Manifest revision `fe8a4ea1ffedaf415f4da2f062534de366a451e6` | Rebuild the loss mask from the source spans (assistant text and the trailing EOS). Old offsets do not point at those spans. |
+| `s3://<research-pack-bucket>/data/nemotron_cc_v2_hqsynth_tinyllama_15b_parallel_20260730T185305Z/` | 15,000,000,001 train tokens, 50,000,001 validation tokens, `seq_len` 2048 | Retokenize from the source text. The 15,000,000,001 figure is not the count under this tokenizer. Recompute the curriculum’s 2-epoch cap as `2 × T` after the recount. |
+| `s3://<research-pack-bucket>/openhermes25_assistant_sft_20260803/` | 251,398,213 train tokens, 180,633,498 supervised tokens. Manifest revision `fe8a4ea1ffedaf415f4da2f062534de366a451e6` | Rebuild the loss mask from the source spans (assistant text and the trailing EOS). Old offsets do not point at those spans. |
 
 The unfinished `20260730T1840Z` run and the `test16/` tarballs are the same kind of file. They are not a shortcut.
 
